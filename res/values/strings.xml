@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gxpenses</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Password</string>
+    <string name="login_btn">Sign In</string>
+    <string name="login_faild_message">Username or password are not correct !</string>
+    <string name="loading_message">Loading&#8230;</string>
+    <string name="logo_description">gXpenses</string>
+
+    <string name="accounts_label">Accounts</string>
+    <string name="budgets_label">Budgets</string>
+    <string name="reports_label">Reports</string>
+
+    <string name="setting_label">Settings</string>
+    <string name="sign_out_label">Sign out</string>
+    <string name="transfer_label">Transfer</string>
+    <string name="add_account_label">Add new account</string>
+    <string name="add_budget_label">Add new budget</string>
+    <string name="add_transaction_label">Add new transaction</string>
+    <string name="reload_label">Reload</string>
+    <string name="done_label">Done</string>
+    <string name="update_label">Update</string>
+    <string name="delete_label">Delete</string>
+    <string name="account_type_label">Account type</string>
+    <string name="account_source_label">Source</string>
+    <string name="account_target_label">Target</string>
+    <string name="account_status_label">Account status</string>
+
+    <string name="account_name_hint">Account name</string>
+    <string name="account_initial_balance_hint">Initial balance</string>
+    <string name="account_transfer_amount_hint">Amount</string>
+    <string name="transaction_payee_hint">Payee</string>
+    <string name="transaction_date_hint">Date</string>
+    <string name="transaction_amount_hint">Amount</string>
+    <string name="transaction_tags_hint">Tags</string>
+
+    <string name="budget_elements_label">Budget elements</string>
+    <string name="budget_name_hint">Budget name</string>
+    <string name="budget_element_tag_hint">Tag</string>
+    <string name="budget_element_amount_hint">Amount</string>
+    <string name="budget_add_element_description">Add new budget element</string>
+    <string name="next_label">Next</string>
+    <string name="previous_label">Previous</string>
+    <string name="of_label">of</string>
+    <string name="budget_element_status_label">Budget element status</string>
+</resources>

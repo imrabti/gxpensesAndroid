@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/reload_budgets_menu"
+            android:icon="@drawable/ic_reload"
+            android:showAsAction="always"
+            android:title="@string/reload_label"/>
+    <item
+            android:id="@+id/add_budget_menu"
+            android:icon="@drawable/ic_add"
+            android:showAsAction="always"
+            android:title="@string/add_account_label"/>
+</menu>

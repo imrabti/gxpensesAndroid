@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The Base Theme of gXpenses Application -->
+    <style name="Theme.GxpensesApp" parent="android:style/Theme.Holo.Light">
+        <item name="android:actionBarTabStyle">@style/GxpensesBarTabStyle</item>
+        <item name="android:actionBarTabTextStyle">@style/GxpensesBarTabTextStyle</item>
+        <item name="android:actionBarTabBarStyle">@style/GxpensesBarTabBarStyle</item>
+    </style>
+
+    <!-- style for the tabs -->
+    <style name="GxpensesBarTabStyle" parent="android:style/Widget.Holo.Light.ActionBar.TabView">
+        <item name="android:background">@drawable/actionbar_tab_bg</item>
+    </style>
+
+    <style name="GxpensesBarTabBarStyle" parent="android:style/Widget.Holo.Light.ActionBar.TabBar">
+        <item name="android:background">@color/light_gray</item>
+    </style>
+
+    <style name="GxpensesBarTabTextStyle" parent="android:style/Widget.Holo.Light.ActionBar.TabText">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="elementTitle">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="elementTitleStyle1">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="elementSubTitle">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+    <style name="elementDate">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/light_gray</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="amountStyle">
+        <item name="android:textSize">17dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+    <style name="amountStyle1">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+    <style name="amountStyle2">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+    <style name="elementTitleWhite">
+        <item name="android:textSize">17dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="topBarTitleWhite">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="amountStyleWhite">
+        <item name="android:textSize">17dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="amountStyleWhite1">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>

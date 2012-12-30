@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <AutoCompleteTextView
+            android:id="@+id/transaction_payee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/marign_left_right"
+            android:layout_marginRight="@dimen/marign_left_right"
+            android:layout_marginTop="@dimen/marign_top_bottom"
+            android:hint="@string/transaction_payee_hint">
+
+        <requestFocus/>
+    </AutoCompleteTextView>
+
+    <EditText
+            android:id="@+id/transaction_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/marign_left_right"
+            android:layout_marginRight="@dimen/marign_left_right"
+            android:layout_marginTop="@dimen/marign_top_bottom"
+            android:inputType="none"
+            android:hint="@string/transaction_date_hint"/>
+
+    <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/marign_left_right"
+            android:layout_marginRight="@dimen/marign_left_right"
+            android:layout_marginTop="@dimen/marign_top_bottom">
+
+        <EditText
+                android:id="@+id/transaction_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:hint="@string/transaction_amount_hint"
+                android:inputType="numberDecimal"/>
+
+        <Spinner
+                android:id="@+id/transaction_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+    </LinearLayout>
+
+    <MultiAutoCompleteTextView
+            android:id="@+id/transaction_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/marign_left_right"
+            android:layout_marginRight="@dimen/marign_left_right"
+            android:layout_marginTop="@dimen/marign_top_bottom"
+            android:hint="@string/transaction_tags_hint"/>
+
+</LinearLayout>

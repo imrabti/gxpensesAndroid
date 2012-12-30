@@ -1,0 +1,86 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.nuvola.gxpenses"
+          android:versionCode="1"
+          android:versionName="1.0">
+
+    <!-- Required SDK version -->
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="16"/>
+
+    <!-- Accord Some permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <application android:label="gXpenses" android:icon="@drawable/ic_launcher"
+                 android:logo="@drawable/logo"
+                 android:theme="@style/Theme.GxpensesApp"
+                 android:name=".MainApplication"
+                 android:debuggable="true"
+                 android:hardwareAccelerated="true">
+        <!-- Main gXpenses Activity -->
+        <activity android:label="gXpenses" android:name=".activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Login Activity -->
+        <activity android:name=".activity.LoginActivity" android:launchMode="singleInstance"
+                  android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Add new account Activity -->
+        <activity android:label="New Account" android:name=".activity.transaction.AddAccountActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Transfer account Activity -->
+        <activity android:label="New Transfer" android:name=".activity.transaction.AccountTransferActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Transaction List Activity -->
+        <activity android:label="Transactions" android:name=".activity.transaction.TransactionActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Add new transaction Activity -->
+        <activity android:label="New Transaction" android:name=".activity.transaction.AddTransactionActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Update Delete transaction Activity -->
+        <!--<activity android:label="Edit Transaction" android:name=".activity.transaction.UpdateTransactionActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>-->
+
+        <!-- Budget Elements Activity -->
+        <activity android:label="Budget Detail" android:name=".activity.budget.BudgetElementActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Add new Budget Activity -->
+        <!--<activity android:label="New Budget" android:name=".activity.budget.AddBudgetActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>-->
+    </application>
+</manifest>

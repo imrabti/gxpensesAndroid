@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <EditText
+            android:id="@+id/budget_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/marign_left_right"
+            android:layout_marginRight="@dimen/marign_left_right"
+            android:layout_marginTop="@dimen/marign_top_bottom"
+            android:hint="@string/budget_name_hint">
+
+        <requestFocus/>
+    </EditText>
+
+    <Spinner
+            android:id="@+id/budget_frequency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/marign_left_right"
+            android:layout_marginRight="@dimen/marign_left_right"
+            android:layout_marginTop="@dimen/marign_top_bottom"/>
+
+    <TextView
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/marign_left_right"
+            android:layout_marginRight="@dimen/marign_left_right"
+            android:layout_marginTop="@dimen/marign_top_bottom"
+            android:text="@string/budget_elements_label"/>
+
+    <AutoCompleteTextView
+            android:id="@+id/element_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/marign_left_right"
+            android:layout_marginRight="@dimen/marign_left_right"
+            android:layout_marginTop="@dimen/marign_top_bottom"
+            android:hint="@string/budget_element_tag_hint"/>
+
+    <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/marign_left_right"
+            android:layout_marginRight="@dimen/marign_left_right"
+            android:layout_marginTop="@dimen/marign_top_bottom">
+
+        <EditText
+                android:id="@+id/element_amount"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:hint="@string/budget_element_amount_hint"
+                android:inputType="numberDecimal"/>
+
+        <ImageButton
+                android:id="@+id/button1"
+                android:contentDescription="@string/budget_add_element_description"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add"/>
+    </LinearLayout>
+
+    <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marign_top_bottom">
+
+    </ListView>
+
+</LinearLayout>

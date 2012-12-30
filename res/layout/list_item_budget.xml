@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="@dimen/list_item_padding_alt">
+
+    <TextView
+            android:id="@+id/budget_name"
+            style="@style/elementTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <ProgressBar
+            android:id="@+id/budget_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+
+    <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+
+        <TextView
+                android:id="@+id/budget_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                style="@style/amountStyle2"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/marign_left_right"
+                android:text="@string/of_label"/>
+
+        <TextView
+                android:id="@+id/budget_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/marign_left_right"
+                android:textColor="@color/light_gray"
+                style="@style/amountStyle2"/>
+    </LinearLayout>
+
+</LinearLayout>

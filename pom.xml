@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.nuvola.gxpenses</groupId>
+    <artifactId>gxpensesAndroid</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>apk</packaging>
+    <name>gxpensesAndroid</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <android.sdk.path>/Users/imrabti/android-sdk-macosx</android.sdk.path>
+
+        <!-- Plugins -->
+        <android-maven-plugin.version>3.3.0</android-maven-plugin.version>
+        <maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
+        <maven-processor-plugin.version>2.0.5</maven-processor-plugin.version>
+        <api.platform>16</api.platform>
+
+        <!-- Dependencies -->
+        <android.version>4.1.1.4</android.version>
+        <android-v4.version>r6</android-v4.version>
+        <robo-guice.version>2.0</robo-guice.version>
+        <jsr305.version>1.3.9</jsr305.version>
+        <guava.version>13.0</guava.version>
+        <requestfactory-client.version>2.5.0</requestfactory-client.version>
+        <requestfactory-apt.version>2.5.0</requestfactory-apt.version>
+    </properties>
+
+    <dependencies>
+        <!-- Android dependencies -->
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android</artifactId>
+            <scope>provided</scope>
+            <version>${android.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>support-v4</artifactId>
+            <version>${android-v4.version}</version>
+        </dependency>
+
+        <!-- RoboGuice dependencies -->
+        <dependency>
+            <groupId>org.roboguice</groupId>
+            <artifactId>roboguice</artifactId>
+            <version>${robo-guice.version}</version>
+        </dependency>
+
+        <!-- Requestfactory dependencies -->
+        <dependency>
+            <groupId>com.google.web.bindery</groupId>
+            <artifactId>requestfactory-client</artifactId>
+            <version>${requestfactory-client.version}</version>
+        </dependency>
+
+        <!--Other dependencies-->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>${jsr305.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <version>${android-maven-plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <sdk>
+                        <platform>${api.platform}</platform>
+                    </sdk>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+
+            <!-- Run annotation processors on src/home/java sources -->
+            <plugin>
+                <groupId>org.bsc.maven</groupId>
+                <artifactId>maven-processor-plugin</artifactId>
+                <version>${maven-processor-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>process</id>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.google.web.bindery</groupId>
+                        <artifactId>requestfactory-apt</artifactId>
+                        <version>${requestfactory-apt.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/delete_budget_menu"
+            android:icon="@drawable/ic_delete"
+            android:showAsAction="ifRoom|withText"
+            android:title="@string/delete_label"/>
+    <item
+            android:id="@+id/update_budget_menu"
+            android:icon="@drawable/ic_update"
+            android:showAsAction="ifRoom|withText"
+            android:title="@string/update_label"/>
+    <item
+            android:id="@+id/previous_period_menu"
+            android:icon="@drawable/ic_previous"
+            android:showAsAction="always"
+            android:title="@string/previous_label"/>
+    <item
+            android:id="@+id/next_period_menu"
+            android:icon="@drawable/ic_next"
+            android:showAsAction="always"
+            android:title="@string/next_label"/>
+</menu>

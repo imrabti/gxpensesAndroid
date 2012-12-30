@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="marign_left_right">6dp</dimen>
+    <dimen name="marign_top_bottom">12dp</dimen>
+    <dimen name="list_item_padding">6dp</dimen>
+    <dimen name="list_item_padding_alt">10dp</dimen>
+</resources>
