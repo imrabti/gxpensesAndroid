@@ -22,6 +22,7 @@ import com.nuvola.gxpenses.security.SecurityUtils;
 import com.nuvola.gxpenses.util.Constants;
 import com.nuvola.gxpenses.util.LoadingDialog;
 import com.nuvola.gxpenses.util.SuggestionListFactory;
+import com.nuvola.gxpenses.util.ValueListFactory;
 import roboguice.activity.RoboFragmentActivity;
 
 import javax.inject.Inject;
@@ -36,6 +37,8 @@ public class MainActivity extends RoboFragmentActivity {
     CurrentUser currentUser;
     @Inject
     SuggestionListFactory suggestionListFactory;
+    @Inject
+    ValueListFactory valueListFactory;
     @Inject
     SecurityUtils securityUtils;
 
@@ -176,6 +179,7 @@ public class MainActivity extends RoboFragmentActivity {
                         currentUser.init();
                         suggestionListFactory.getListPayee();
                         suggestionListFactory.getListTags();
+                        valueListFactory.getListAccounts();
                     } else {
                         Log.d(TAG, "User Authentication FAILED");
                         redirectToLoginActivity();

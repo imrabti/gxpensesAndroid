@@ -12,6 +12,7 @@ import com.nuvola.gxpenses.security.SecuredRequestTransport;
 import com.nuvola.gxpenses.security.SecurityUtils;
 import com.nuvola.gxpenses.util.Constants;
 import com.nuvola.gxpenses.util.SuggestionListFactory;
+import com.nuvola.gxpenses.util.ValueListFactory;
 import roboguice.inject.SharedPreferencesName;
 
 import javax.inject.Inject;
@@ -29,6 +30,7 @@ public class MainModule extends AbstractModule {
 
         bind(SecurityUtils.class).in(Singleton.class);
         bind(SuggestionListFactory.class).in(Singleton.class);
+        bind(ValueListFactory.class).in(Singleton.class);
 
         bindConstant().annotatedWith(SharedPreferencesName.class).to(Constants.PREFERENCES_NAME);
         bindConstant().annotatedWith(ApiURL.class).to(Constants.API_URL);

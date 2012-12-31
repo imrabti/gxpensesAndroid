@@ -81,7 +81,6 @@ public class AddAccountActivity extends RoboActivity {
 
             case R.id.save_account_menu:
                 AccountProxy newAccount = context.create(AccountProxy.class);
-                context.edit(newAccount);
                 newAccount.setName(accountName.getText().toString());
                 newAccount.setType((AccountType) accountType.getSelectedItem());
                 newAccount.setUser(context.edit(currentUser.get()));

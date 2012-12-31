@@ -17,6 +17,7 @@ import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
 import com.nuvola.gxpenses.client.request.proxy.AccountProxy;
 import com.nuvola.gxpenses.util.Constants;
 import com.nuvola.gxpenses.util.EnhancedListFragment;
+import com.nuvola.gxpenses.util.ValueListFactory;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ public class AccountFragment extends EnhancedListFragment {
 
     @Inject
     private GxpensesRequestFactory requestFactory;
+    @Inject
+    private ValueListFactory valueListFactory;
     @Inject
     private AccountAdapterFactory accountAdapterFactory;
 
