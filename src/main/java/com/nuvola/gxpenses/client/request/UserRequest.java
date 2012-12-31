@@ -9,7 +9,7 @@ import com.nuvola.gxpenses.client.request.proxy.UserProxy;
 import java.util.List;
 
 @ServiceName(value = "com.nuvola.gxpenses.server.service.UserServiceImpl",
-        locator = "com.nuvola.gxpenses.server.util.SpringServiceLocator")
+             locator = "com.nuvola.gxpenses.server.util.SpringServiceLocator")
 public interface UserRequest extends RequestContext {
     Request<Void> createUser(UserProxy user);
 

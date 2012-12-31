@@ -63,11 +63,11 @@
         </activity>
 
         <!-- Update Delete transaction Activity -->
-        <!--<activity android:label="Edit Transaction" android:name=".activity.transaction.UpdateTransactionActivity">
+        <activity android:label="Edit Transaction" android:name=".activity.transaction.UpdateTransactionActivity">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
-        </activity>-->
+        </activity>
 
         <!-- Budget Elements Activity -->
         <activity android:label="Budget Detail" android:name=".activity.budget.BudgetElementActivity">

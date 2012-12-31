@@ -54,23 +54,25 @@ public class TransactionActivity extends RoboListActivity implements OnScrollLis
     @InjectView(R.id.account_balance)
     TextView accountBalanceLabel;
 
-    private String currency;
     private Integer pageSize;
-
     private Long accountId;
     private String accountName;
     private Double accountBalance;
 
     private TransactionAdapter transactionAdapter;
     private LoadingDialog loadingDialog;
+    private NumberFormat currencyFormat;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         if (DEBUG) Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
 
-        currency = currentUser.get().getCurrency().getValue();
+        String currency = currentUser.get().getCurrency().getValue();
         pageSize = currentUser.get().getPageSize().getValue();
+
+        currencyFormat = NumberFormat.getCurrencyInstance();
+        currencyFormat.setCurrency(java.util.Currency.getInstance(currency));
 
         //Load selected account information
         accountId = (Long) getIntent().getSerializableExtra("accountId");
@@ -93,7 +95,7 @@ public class TransactionActivity extends RoboListActivity implements OnScrollLis
             if (DEBUG) Log.d(TAG, "New transaction added, update account balance");
             Double amount = data.getDoubleExtra("amount", 0d);
             accountBalance = accountBalance + amount;
-            accountBalanceLabel.setText(accountBalance.toString());
+            accountBalanceLabel.setText(currencyFormat.format(accountBalance));
             transactionAdapter = null;
             new SetUpTransactionsTask().execute();
         } else if (requestCode == EDIT_TRANSACTION && resultCode == RESULT_OK) {
@@ -101,7 +103,7 @@ public class TransactionActivity extends RoboListActivity implements OnScrollLis
             Double oldAmount = data.getDoubleExtra("oldAmount", 0d);
             Double newAmount = data.getDoubleExtra("amount", 0d);
             accountBalance = accountBalance + oldAmount + newAmount;
-            accountBalanceLabel.setText(accountBalance.toString());
+            accountBalanceLabel.setText(currencyFormat.format(accountBalance));
             transactionAdapter = null;
             new SetUpTransactionsTask().execute();
         }
@@ -138,9 +140,9 @@ public class TransactionActivity extends RoboListActivity implements OnScrollLis
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         if (DEBUG) Log.d(TAG, "Transaction Item Clicked");
-        //Intent intent = new Intent(this, UpdateTransactionActivity.class);
-        //intent.putExtra("transactionId", transactionAdapter.getItem(position).getId());
-        //startActivityForResult(intent, EDIT_TRANSACTION);
+        Intent intent = new Intent(this, UpdateTransactionActivity.class);
+        intent.putExtra("transactionId", transactionAdapter.getItem(position).getId());
+        startActivityForResult(intent, EDIT_TRANSACTION);
     }
 
     @Override
@@ -156,17 +158,15 @@ public class TransactionActivity extends RoboListActivity implements OnScrollLis
     }
 
     private void setAccountInformations() {
-        NumberFormat format = NumberFormat.getCurrencyInstance();
-        format.setCurrency(java.util.Currency.getInstance(currency));
         accountNameLabel.setText(accountName);
-        accountBalanceLabel.setText(format.format(accountBalance));
+        accountBalanceLabel.setText(currencyFormat.format(accountBalance));
     }
 
     private void initializeTransactionAdatpter(Long numTransactions, List<TransactionProxy> data) {
         if (transactionAdapter == null) {
             if (DEBUG) Log.d(TAG, "Transaction Adapter CREATED");
-            transactionAdapter = new TransactionAdapter(this, R.layout.list_item_transaction,
-                    data, numTransactions, currency, pageSize);
+            transactionAdapter = transactionAdapterFactory.create(this, R.layout.list_item_transaction,
+                    data, numTransactions);
             setListAdapter(transactionAdapter);
         } else {
             if (DEBUG) Log.d(TAG, "Transaction Adapter APPENDED");

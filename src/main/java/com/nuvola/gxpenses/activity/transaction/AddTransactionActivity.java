@@ -35,7 +35,6 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -163,14 +162,14 @@ public class AddTransactionActivity extends RoboActivity {
 
     private void setUpAutocompletePayee() {
         if (DEBUG) Log.d(TAG, "Setting up Payee suggestion list");
-        List<String> listPayee = new ArrayList<String>(suggestionListFactory.getListPayee());
+        List<String> listPayee = suggestionListFactory.getListPayee();
         transactionPayee.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, listPayee));
     }
 
     private void setUpAutocompleteTags() {
         if (DEBUG) Log.d(TAG, "Setting up Tags suggestion list");
-        List<String> listTags = new ArrayList<String>(suggestionListFactory.getListTags());
+        List<String> listTags = suggestionListFactory.getListTags();
         transactionTags.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, listTags));
     }

@@ -9,13 +9,17 @@ import com.nuvola.gxpenses.client.request.proxy.TransactionProxy;
 import com.nuvola.gxpenses.client.request.proxy.TransferTransactionProxy;
 
 @ServiceName(value = "com.nuvola.gxpenses.server.service.TransactionServiceImpl",
-        locator = "com.nuvola.gxpenses.server.util.SpringServiceLocator")
+             locator = "com.nuvola.gxpenses.server.util.SpringServiceLocator")
 public interface TransactionRequest extends RequestContext {
     Request<Void> createNewTransaction(TransactionProxy transaction);
 
     Request<Void> removeTransaction(Long transactionId);
 
     Request<Void> createNewTransferTransaction(TransferTransactionProxy transfer);
+
+    Request<Void> updateTransaction(TransactionProxy transaction);
+
+    Request<TransactionProxy> findByTransactionId(Long transactionId);
 
     Request<PagedTransactionsProxy> findByAccount(Long accountId, DataPageProxy dataPage);
 }
