@@ -6,7 +6,7 @@ import com.google.web.bindery.requestfactory.shared.ServiceName;
 import com.nuvola.gxpenses.client.request.proxy.UserProxy;
 
 @ServiceName(value = "com.nuvola.gxpenses.server.security.AuthenticationServiceImpl",
-        locator = "com.nuvola.gxpenses.server.util.SpringServiceLocator")
+             locator = "com.nuvola.gxpenses.server.util.SpringServiceLocator")
 public interface AuthenticationRequest extends RequestContext {
     Request<UserProxy> currentUser();
 

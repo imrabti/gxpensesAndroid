@@ -21,6 +21,7 @@ import com.nuvola.gxpenses.shared.type.AccountType;
 import com.nuvola.gxpenses.security.CurrentUser;
 import com.nuvola.gxpenses.util.Constants;
 import com.nuvola.gxpenses.util.LoadingDialog;
+import com.nuvola.gxpenses.util.ValueListFactory;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -34,6 +35,8 @@ public class AddAccountActivity extends RoboActivity {
 
     @Inject
     GxpensesRequestFactory requestFactory;
+    @Inject
+    ValueListFactory valueListFactory;
     @Inject
     CurrentUser currentUser;
 
@@ -81,10 +84,9 @@ public class AddAccountActivity extends RoboActivity {
 
             case R.id.save_account_menu:
                 AccountProxy newAccount = context.create(AccountProxy.class);
-                context.edit(newAccount);
                 newAccount.setName(accountName.getText().toString());
                 newAccount.setType((AccountType) accountType.getSelectedItem());
-                newAccount.setUser(currentUser.get());
+                newAccount.setUser(context.edit(currentUser.get()));
                 if (accounBalance.getText().toString().length() > 0) {
                     newAccount.setBalance(Double.parseDouble(accounBalance.getText().toString()));
                 }
@@ -117,6 +119,7 @@ public class AddAccountActivity extends RoboActivity {
                 public void onSuccess(Void result) {
                     Log.d(TAG, "Account Created with succes");
                     context = requestFactory.accountService();
+                    valueListFactory.updateListAccount();
                 }
             });
 

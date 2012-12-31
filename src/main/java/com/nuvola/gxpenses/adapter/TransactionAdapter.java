@@ -7,10 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.google.inject.assistedinject.Assisted;
 import com.nuvola.gxpenses.R;
 import com.nuvola.gxpenses.client.request.proxy.TransactionProxy;
+import com.nuvola.gxpenses.ioc.Currency;
+import com.nuvola.gxpenses.ioc.PageSize;
 import com.nuvola.gxpenses.shared.type.TransactionType;
 
+import javax.inject.Inject;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -23,9 +27,10 @@ public class TransactionAdapter extends ArrayAdapter<TransactionProxy> {
     private NumberFormat currencyFormat;
     private SimpleDateFormat dateFormat;
 
-    public TransactionAdapter(Activity context, Integer textViewResourceId,
-                              List<TransactionProxy> objects, Long numTransactions,
-                              String currency, Integer pageSize) {
+    @Inject
+    public TransactionAdapter(@Assisted Activity context, @Assisted Integer textViewResourceId,
+                              @Assisted List<TransactionProxy> objects, @Assisted Long numTransactions,
+                              @Currency String currency, @PageSize Integer pageSize) {
         super(context, textViewResourceId, objects);
         this.context = context;
         this.transactions = objects;

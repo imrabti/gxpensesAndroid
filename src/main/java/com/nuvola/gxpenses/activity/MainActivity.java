@@ -20,8 +20,8 @@ import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
 import com.nuvola.gxpenses.security.CurrentUser;
 import com.nuvola.gxpenses.security.SecurityUtils;
 import com.nuvola.gxpenses.util.Constants;
-import com.nuvola.gxpenses.util.LoadingDialog;
 import com.nuvola.gxpenses.util.SuggestionListFactory;
+import com.nuvola.gxpenses.util.ValueListFactory;
 import roboguice.activity.RoboFragmentActivity;
 
 import javax.inject.Inject;
@@ -37,14 +37,13 @@ public class MainActivity extends RoboFragmentActivity {
     @Inject
     SuggestionListFactory suggestionListFactory;
     @Inject
+    ValueListFactory valueListFactory;
+    @Inject
     SecurityUtils securityUtils;
-
-    private LoadingDialog loadingDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadingDialog = new LoadingDialog(this);
 
         if (securityUtils.isLoggedIn()) {
             if (DEBUG) Log.d(TAG, "Credential saved, Authentication & init Data");
@@ -59,7 +58,6 @@ public class MainActivity extends RoboFragmentActivity {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        // Adding Fragments Tabs
         actionBar.addTab(actionBar.newTab()
                 .setText(R.string.accounts_label)
                 .setTabListener(new TabListener<AccountFragment>(this, "accounts",
@@ -160,11 +158,6 @@ public class MainActivity extends RoboFragmentActivity {
 
     private class PrepareApplicationTask extends AsyncTask<Void, Void, Void> {
         @Override
-        protected void onPreExecute() {
-            loadingDialog.show();
-        }
-
-        @Override
         protected Void doInBackground(Void... tokens) {
             String email = securityUtils.getUsername();
             String password = securityUtils.getPassword();
@@ -176,6 +169,7 @@ public class MainActivity extends RoboFragmentActivity {
                         currentUser.init();
                         suggestionListFactory.getListPayee();
                         suggestionListFactory.getListTags();
+                        valueListFactory.getListAccounts();
                     } else {
                         Log.d(TAG, "User Authentication FAILED");
                         redirectToLoginActivity();
@@ -184,17 +178,6 @@ public class MainActivity extends RoboFragmentActivity {
             });
 
             return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void argument) {
-            loadingDialog.dismiss();
-        }
-
-        @Override
-        public void onCancelled() {
-            if (DEBUG) Log.d(TAG, "Operation Canceled...");
-            loadingDialog.dismiss();
         }
     }
 }
