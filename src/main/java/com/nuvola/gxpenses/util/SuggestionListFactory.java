@@ -1,6 +1,5 @@
 package com.nuvola.gxpenses.util;
 
-import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
@@ -53,7 +52,7 @@ public class SuggestionListFactory {
     }
 
     public void updateTagsList(String tag) {
-        if (!Strings.isNullOrEmpty(tag)) {
+        if (tag != null && !tag.equals("")) {
             List<String> tags = Arrays.asList(tag.split(","));
             List<String> toAdd = new ArrayList<String>();
 
