@@ -2,13 +2,12 @@
 package com.nuvola.gxpenses.activity;
 
 import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +22,6 @@ import com.nuvola.gxpenses.security.SecurityUtils;
 import com.nuvola.gxpenses.util.Constants;
 import com.nuvola.gxpenses.util.LoadingDialog;
 import com.nuvola.gxpenses.util.SuggestionListFactory;
-import com.nuvola.gxpenses.util.TabListener;
 import roboguice.activity.RoboFragmentActivity;
 
 import javax.inject.Inject;
@@ -31,7 +29,6 @@ import javax.inject.Inject;
 public class MainActivity extends RoboFragmentActivity {
     private static final String TAG = MainActivity.class.getName();
     private static final boolean DEBUG = Constants.DEBUG;
-    private static final int NUM_ITEMS = 2;
 
     @Inject
     GxpensesRequestFactory requestFactory;
@@ -42,8 +39,6 @@ public class MainActivity extends RoboFragmentActivity {
     @Inject
     SecurityUtils securityUtils;
 
-    private ViewPager viewPager;
-    private TabsAdapter tabsAdapter;
     private LoadingDialog loadingDialog;
 
     @Override
@@ -64,33 +59,19 @@ public class MainActivity extends RoboFragmentActivity {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        viewPager = new ViewPager(this);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int i) {
-                actionBar.getTabAt(i).select();
-            }
-
-            @Override
-            public void onPageScrolled(int i, float v, int i2) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-            }
-        });
-
-        tabsAdapter = new TabsAdapter(getSupportFragmentManager());
+        // Adding Fragments Tabs
         actionBar.addTab(actionBar.newTab()
                 .setText(R.string.accounts_label)
-                .setTabListener(new TabListener<android.app.Fragment>(this, "0", viewPager)));
+                .setTabListener(new TabListener<AccountFragment>(this, "accounts",
+                        AccountFragment.class)));
         actionBar.addTab(actionBar.newTab()
                 .setText(R.string.budgets_label)
-                .setTabListener(new TabListener<android.app.Fragment>(this, "1", viewPager)));
+                .setTabListener(new TabListener<BudgetFragment>(this, "budgets",
+                        BudgetFragment.class)));
 
-        viewPager.setAdapter(tabsAdapter);
-        setContentView(viewPager);
-        actionBar.setSelectedNavigationItem(0);
+        if (savedInstanceState != null) {
+            actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
+        }
     }
 
     @Override
@@ -134,28 +115,47 @@ public class MainActivity extends RoboFragmentActivity {
         finish();
     }
 
+    public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
+        private final Activity mActivity;
+        private final String mTag;
+        private final Class<T> mClass;
+        private final Bundle mArgs;
+        private Fragment mFragment;
 
-    public static class TabsAdapter extends FragmentPagerAdapter {
-        public TabsAdapter(FragmentManager fm) {
-            super(fm);
+        public TabListener(Activity activity, String tag, Class<T> clz) {
+            this(activity, tag, clz, null);
         }
 
-        @Override
-        public int getCount() {
-            return NUM_ITEMS;
-        }
+        public TabListener(Activity activity, String tag, Class<T> clz, Bundle args) {
+            mActivity = activity;
+            mTag = tag;
+            mClass = clz;
+            mArgs = args;
 
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new AccountFragment();
-                case 1:
-                    return new BudgetFragment();
-                default:
-                    return null;
+            mFragment = mActivity.getFragmentManager().findFragmentByTag(mTag);
+            if (mFragment != null && !mFragment.isDetached()) {
+                FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
+                ft.detach(mFragment);
+                ft.commit();
             }
         }
+
+        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+            if (mFragment == null) {
+                mFragment = Fragment.instantiate(mActivity, mClass.getName(), mArgs);
+                ft.add(android.R.id.content, mFragment, mTag);
+            } else {
+                ft.attach(mFragment);
+            }
+        }
+
+        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+            if (mFragment != null) {
+                ft.detach(mFragment);
+            }
+        }
+
+        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) { }
     }
 
     private class PrepareApplicationTask extends AsyncTask<Void, Void, Void> {

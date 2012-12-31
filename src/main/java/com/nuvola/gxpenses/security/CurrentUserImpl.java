@@ -21,7 +21,7 @@ public class CurrentUserImpl implements CurrentUser {
 
     @Override
     public void init() {
-        if (securityUtils.isLoggedIn()) {
+        if (securityUtils.isLoggedIn() && currentUser != null) {
             requestFactory.authenticationService().currentUser().fire(new Receiver<UserProxy>() {
                 @Override
                 public void onSuccess(UserProxy userProxy) {

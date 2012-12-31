@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.google.web.bindery.requestfactory.vm.RequestFactorySource;
+import com.nuvola.gxpenses.adapter.AdapterModule;
 import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
 import com.nuvola.gxpenses.security.CurrentUser;
 import com.nuvola.gxpenses.security.CurrentUserImpl;
@@ -20,6 +21,8 @@ import javax.inject.Singleton;
 public class MainModule extends AbstractModule {
     @Override
     protected void configure() {
+        install(new AdapterModule());
+
         bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);
         bind(GxpensesRequestFactory.class).toProvider(RequestFactoryProvider.class).in(Singleton.class);
         bind(CurrentUser.class).to(CurrentUserImpl.class).in(Singleton.class);

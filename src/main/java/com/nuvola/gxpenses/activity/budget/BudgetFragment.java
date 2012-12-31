@@ -1,5 +1,6 @@
 package com.nuvola.gxpenses.activity.budget;
 
+import android.app.ListFragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,14 +17,14 @@ import com.nuvola.gxpenses.ioc.Currency;
 import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
 import com.nuvola.gxpenses.client.request.proxy.BudgetProxy;
 import com.nuvola.gxpenses.util.Constants;
-import roboguice.fragment.RoboListFragment;
+import roboguice.RoboGuice;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class BudgetFragment extends RoboListFragment {
+public class BudgetFragment extends ListFragment {
     public static final String TAG = BudgetFragment.class.getName();
     public static final boolean DEBUG = Constants.DEBUG;
 
@@ -37,6 +38,8 @@ public class BudgetFragment extends RoboListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RoboGuice.getInjector(getActivity()).injectMembersWithoutViews(this);
+
         setHasOptionsMenu(true);
     }
 
