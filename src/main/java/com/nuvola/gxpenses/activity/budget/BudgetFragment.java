@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.nuvola.gxpenses.R;
 import com.nuvola.gxpenses.adapter.BudgetAdapter;
-import com.nuvola.gxpenses.ioc.Currency;
+import com.nuvola.gxpenses.adapter.BudgetAdapterFactory;
 import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
 import com.nuvola.gxpenses.client.request.proxy.BudgetProxy;
 import com.nuvola.gxpenses.util.Constants;
@@ -30,8 +30,8 @@ public class BudgetFragment extends ListFragment {
 
     @Inject
     private GxpensesRequestFactory requestFactory;
-    @Currency
-    private String currency;
+    @Inject
+    BudgetAdapterFactory budgetAdapterFactory;
 
     private BudgetAdapter budgetDataItems;
 
@@ -47,11 +47,6 @@ public class BudgetFragment extends ListFragment {
     public void onStart() {
         super.onStart();
         new LoadBudgetsTask().execute();
-    }
-
-    private void initialiseData(List<BudgetProxy> budgets) {
-        budgetDataItems = new BudgetAdapter(getActivity(), R.layout.list_item_budget, budgets, currency);
-        setListAdapter(budgetDataItems);
     }
 
     @Override
@@ -83,6 +78,11 @@ public class BudgetFragment extends ListFragment {
         Intent intent = new Intent(getActivity(), BudgetElementActivity.class);
         intent.putExtra("budgetId", budgetDataItems.getItem(position).getId());
         startActivity(intent);
+    }
+
+    private void initialiseData(List<BudgetProxy> budgets) {
+        budgetDataItems = budgetAdapterFactory.create(getActivity(), R.layout.list_item_budget, budgets);
+        setListAdapter(budgetDataItems);
     }
 
     private class LoadBudgetsTask extends AsyncTask<Void, Void, List<BudgetProxy>> {
