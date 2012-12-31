@@ -45,11 +45,6 @@ public class AccountFragment extends EnhancedListFragment {
         new LoadAccountsTask().execute();
     }
 
-    private void initialiseData(List<AccountProxy> accounts) {
-        accountDataItems = accountAdapterFactory.create(getActivity(), R.layout.list_item_account, accounts);
-        setListAdapter(accountDataItems);
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.accounts_menu, menu);
@@ -83,6 +78,11 @@ public class AccountFragment extends EnhancedListFragment {
         intent.putExtra("accountName", accountDataItems.getItem(position).getName());
         intent.putExtra("accountBalance", accountDataItems.getItem(position).getBalance());
         startActivity(intent);
+    }
+
+    private void initialiseData(List<AccountProxy> accounts) {
+        accountDataItems = accountAdapterFactory.create(getActivity(), R.layout.list_item_account, accounts);
+        setListAdapter(accountDataItems);
     }
 
     private class LoadAccountsTask extends AsyncTask<Void, Void, List<AccountProxy>> {

@@ -84,7 +84,7 @@ public class AddAccountActivity extends RoboActivity {
                 context.edit(newAccount);
                 newAccount.setName(accountName.getText().toString());
                 newAccount.setType((AccountType) accountType.getSelectedItem());
-                newAccount.setUser(currentUser.get());
+                newAccount.setUser(context.edit(currentUser.get()));
                 if (accounBalance.getText().toString().length() > 0) {
                     newAccount.setBalance(Double.parseDouble(accounBalance.getText().toString()));
                 }

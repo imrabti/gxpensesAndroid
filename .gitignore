@@ -21,3 +21,8 @@ local.properties
 *.iml
 .idea/
 
+# KDE and OSX
+.DS_Store
+.directory
+
+

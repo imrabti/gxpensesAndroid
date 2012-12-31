@@ -5,7 +5,6 @@ import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.google.web.bindery.requestfactory.shared.ServiceName;
 import com.nuvola.gxpenses.client.request.proxy.DataPageProxy;
 import com.nuvola.gxpenses.client.request.proxy.PagedTransactionsProxy;
-import com.nuvola.gxpenses.client.request.proxy.TransactionFilterProxy;
 import com.nuvola.gxpenses.client.request.proxy.TransactionProxy;
 import com.nuvola.gxpenses.client.request.proxy.TransferTransactionProxy;
 
@@ -18,7 +17,5 @@ public interface TransactionRequest extends RequestContext {
 
     Request<Void> createNewTransferTransaction(TransferTransactionProxy transfer);
 
-    Request<PagedTransactionsProxy> findByAccountAndDateAndType(TransactionFilterProxy filter, DataPageProxy dataPage);
-
-    Request<Double> totalAmountByAccountAndPeriodAndType(TransactionFilterProxy filter);
+    Request<PagedTransactionsProxy> findByAccount(Long accountId, DataPageProxy dataPage);
 }

@@ -7,5 +7,6 @@ public class AdapterModule extends AbstractModule {
     @Override
     protected void configure() {
         install(new FactoryModuleBuilder().build(AccountAdapterFactory.class));
+        install(new FactoryModuleBuilder().build(TransactionAdapterFactory.class));
     }
 }
