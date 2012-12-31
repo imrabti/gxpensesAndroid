@@ -10,7 +10,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <android.sdk.path>/Users/imrabti/android-sdk-macosx</android.sdk.path>
 
         <!-- Plugins -->
         <android-maven-plugin.version>3.3.0</android-maven-plugin.version>
@@ -22,6 +21,7 @@
         <android.version>4.1.1.4</android.version>
         <android-v4.version>r6</android-v4.version>
         <robo-guice.version>2.0</robo-guice.version>
+        <guice.version>3.0</guice.version>
         <jsr305.version>1.3.9</jsr305.version>
         <guava.version>13.0</guava.version>
         <requestfactory-client.version>2.5.0</requestfactory-client.version>
@@ -47,6 +47,17 @@
             <groupId>org.roboguice</groupId>
             <artifactId>roboguice</artifactId>
             <version>${robo-guice.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-assistedinject</artifactId>
+            <version>${guice.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>guice</artifactId>
+                    <groupId>com.google.inject</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Requestfactory dependencies -->

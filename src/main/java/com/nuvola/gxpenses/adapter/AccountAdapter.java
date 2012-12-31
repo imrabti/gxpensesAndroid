@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.google.inject.assistedinject.Assisted;
 import com.nuvola.gxpenses.R;
 import com.nuvola.gxpenses.client.request.proxy.AccountProxy;
+import com.nuvola.gxpenses.ioc.Currency;
 
+import javax.inject.Inject;
 import java.text.NumberFormat;
 import java.util.List;
 
@@ -19,7 +22,9 @@ public class AccountAdapter extends ArrayAdapter<AccountProxy> {
     private Activity context;
     private NumberFormat currencyFormat;
 
-    public AccountAdapter(Activity context, Integer textViewResourceId, List<AccountProxy> objects, String currency) {
+    @Inject
+    public AccountAdapter(@Assisted Activity context, @Assisted  Integer textViewResourceId,
+                          @Assisted  List<AccountProxy> objects, @Currency String currency) {
         super(context, textViewResourceId, objects);
         this.accountDataItems = objects;
         this.context = context;
