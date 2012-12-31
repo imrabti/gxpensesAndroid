@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.google.inject.assistedinject.Assisted;
 import com.nuvola.gxpenses.R;
 import com.nuvola.gxpenses.client.request.proxy.BudgetProxy;
+import com.nuvola.gxpenses.ioc.Currency;
 
+import javax.inject.Inject;
 import java.text.NumberFormat;
 import java.util.List;
 
@@ -19,7 +22,9 @@ public class BudgetAdapter extends ArrayAdapter<BudgetProxy> {
     private Activity context;
     private NumberFormat currencyFormat;
 
-    public BudgetAdapter(Activity context, Integer textViewResourceId, List<BudgetProxy> objects, String currency) {
+    @Inject
+    public BudgetAdapter(@Assisted Activity context, @Assisted Integer textViewResourceId,
+                         @Assisted List<BudgetProxy> objects, @Currency String currency) {
         super(context, textViewResourceId, objects);
         this.budgetDataItems = objects;
         this.context = context;
