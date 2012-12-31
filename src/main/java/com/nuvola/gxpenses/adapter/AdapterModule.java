@@ -9,5 +9,6 @@ public class AdapterModule extends AbstractModule {
         install(new FactoryModuleBuilder().build(AccountAdapterFactory.class));
         install(new FactoryModuleBuilder().build(TransactionAdapterFactory.class));
         install(new FactoryModuleBuilder().build(BudgetAdapterFactory.class));
+        install(new FactoryModuleBuilder().build(BudgetElementAdapterFactory.class));
     }
 }

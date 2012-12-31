@@ -119,7 +119,7 @@ public class AddAccountActivity extends RoboActivity {
                 public void onSuccess(Void result) {
                     Log.d(TAG, "Account Created with succes");
                     context = requestFactory.accountService();
-                    valueListFactory.updateListAccount();
+                    valueListFactory.updateListAccounts();
                 }
             });
 
