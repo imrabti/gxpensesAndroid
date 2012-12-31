@@ -3,8 +3,8 @@ package com.nuvola.gxpenses.activity.transaction;
 import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,16 +23,18 @@ import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.nuvola.gxpenses.R;
 import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
 import com.nuvola.gxpenses.client.request.TransactionRequest;
+import com.nuvola.gxpenses.client.request.proxy.AccountProxy;
 import com.nuvola.gxpenses.client.request.proxy.TransactionProxy;
 import com.nuvola.gxpenses.shared.type.TransactionType;
 import com.nuvola.gxpenses.util.Constants;
 import com.nuvola.gxpenses.util.LoadingDialog;
+import com.nuvola.gxpenses.util.SuggestionListFactory;
+import com.nuvola.gxpenses.util.ValueListFactory;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -41,12 +43,13 @@ import java.util.List;
 public class AddTransactionActivity extends RoboActivity {
     public static final String TAG = AddTransactionActivity.class.getName();
     public static final boolean DEBUG = Constants.DEBUG;
-    public static final int DATE_DIALOG_ID = 0;
 
     @Inject
     GxpensesRequestFactory requestFactory;
     @Inject
-    SharedPreferences sharedPreferences;
+    SuggestionListFactory suggestionListFactory;
+    @Inject
+    ValueListFactory valueListFactory;
 
     @InjectView(R.id.transaction_payee)
     AutoCompleteTextView transactionPayee;
@@ -62,7 +65,7 @@ public class AddTransactionActivity extends RoboActivity {
     private LoadingDialog loadingDialog;
     private TransactionRequest context;
     private Date currentDate;
-    private String accountId;
+    private AccountProxy account;
 
     private int mYear;
     private int mMonth;
@@ -80,8 +83,8 @@ public class AddTransactionActivity extends RoboActivity {
         types.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         transactionType.setAdapter(types);
 
-        //Get the accountID
-        accountId = (String) getIntent().getSerializableExtra("accountId");
+        //Get the account
+        account = valueListFactory.getAccountById((Long) getIntent().getSerializableExtra("accountId"));
 
         final ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -105,7 +108,8 @@ public class AddTransactionActivity extends RoboActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    showDialog(DATE_DIALOG_ID);
+                    DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
+                    datePicker.show(getFragmentManager(), "datePicker");
                 }
                 return false;
             }
@@ -129,14 +133,17 @@ public class AddTransactionActivity extends RoboActivity {
 
             case R.id.save_transaction_menu:
                 TransactionProxy newTransaction = context.create(TransactionProxy.class);
-                context.edit(newTransaction);
                 newTransaction.setPayee(transactionPayee.getText().toString());
                 newTransaction.setTags(transactionTags.getText().toString());
                 newTransaction.setType((TransactionType) transactionType.getSelectedItem());
-                if (transactionAmount.getText().toString().length() > 0)
-                    newTransaction.setAmount(Double.parseDouble(transactionAmount.getText().toString()));
-                else
+                newTransaction.setAccount(context.edit(account));
+                if (transactionAmount.getText().toString().length() > 0) {
+                    Double amount = Double.parseDouble(transactionAmount.getText().toString());
+                    Integer multiplier = newTransaction.getType() == TransactionType.EXPENSE ? -1 : 1;
+                    newTransaction.setAmount(amount * multiplier);
+                } else {
                     newTransaction.setAmount(0d);
+                }
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.YEAR, mYear);
@@ -155,14 +162,14 @@ public class AddTransactionActivity extends RoboActivity {
 
     private void setUpAutocompletePayee() {
         if (DEBUG) Log.d(TAG, "Setting up Payee suggestion list");
-        List<String> listPayee = new ArrayList<String>(sharedPreferences.getStringSet("payee", null));
+        List<String> listPayee = suggestionListFactory.getListPayee();
         transactionPayee.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, listPayee));
     }
 
     private void setUpAutocompleteTags() {
         if (DEBUG) Log.d(TAG, "Setting up Tags suggestion list");
-        List<String> listTags = new ArrayList<String>(sharedPreferences.getStringSet("tags", null));
+        List<String> listTags = suggestionListFactory.getListTags();
         transactionTags.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, listTags));
     }
@@ -173,24 +180,21 @@ public class AddTransactionActivity extends RoboActivity {
                 .append(mYear).append(" "));
     }
 
-    private DatePickerDialog.OnDateSetListener dateCallback =
-            new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    mYear = year;
-                    mMonth = monthOfYear;
-                    mDayOfMonth = dayOfMonth;
-                    updateTransactionDateDisplay();
-                }
-            };
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case DATE_DIALOG_ID:
-                return new DatePickerDialog(this, dateCallback, mYear, mMonth, mDayOfMonth);
+    private DatePickerDialog.OnDateSetListener dateCallback = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            mYear = year;
+            mMonth = monthOfYear;
+            mDayOfMonth = dayOfMonth;
+            updateTransactionDateDisplay();
         }
-        return null;
+    };
+
+    private class DatePickerDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            return new DatePickerDialog(getActivity(), dateCallback, mYear, mMonth, mDayOfMonth);
+        }
     }
 
     private class SaveTransactionTask extends AsyncTask<TransactionProxy, Void, Boolean> {
@@ -210,6 +214,8 @@ public class AddTransactionActivity extends RoboActivity {
                 public void onSuccess(Void result) {
                     Log.d(TAG, "Transaction Created with success");
                     context = requestFactory.transactionService();
+                    suggestionListFactory.updatePayeeList(transaction.getPayee());
+                    suggestionListFactory.updateTagsList(transaction.getTags());
                 }
             });
             return true;
@@ -221,11 +227,7 @@ public class AddTransactionActivity extends RoboActivity {
 
             //Close activity
             Intent data = new Intent();
-            if (transaction.getType() == TransactionType.INCOME) {
-                data.putExtra("amount", transaction.getAmount());
-            } else {
-                data.putExtra("amount", -transaction.getAmount());
-            }
+            data.putExtra("amount", transaction.getAmount());
             setResult(RESULT_OK, data);
             finish();
         }

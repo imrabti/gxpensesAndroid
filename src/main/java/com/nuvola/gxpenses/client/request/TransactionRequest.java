@@ -5,12 +5,11 @@ import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.google.web.bindery.requestfactory.shared.ServiceName;
 import com.nuvola.gxpenses.client.request.proxy.DataPageProxy;
 import com.nuvola.gxpenses.client.request.proxy.PagedTransactionsProxy;
-import com.nuvola.gxpenses.client.request.proxy.TransactionFilterProxy;
 import com.nuvola.gxpenses.client.request.proxy.TransactionProxy;
 import com.nuvola.gxpenses.client.request.proxy.TransferTransactionProxy;
 
 @ServiceName(value = "com.nuvola.gxpenses.server.service.TransactionServiceImpl",
-        locator = "com.nuvola.gxpenses.server.util.SpringServiceLocator")
+             locator = "com.nuvola.gxpenses.server.util.SpringServiceLocator")
 public interface TransactionRequest extends RequestContext {
     Request<Void> createNewTransaction(TransactionProxy transaction);
 
@@ -18,7 +17,9 @@ public interface TransactionRequest extends RequestContext {
 
     Request<Void> createNewTransferTransaction(TransferTransactionProxy transfer);
 
-    Request<PagedTransactionsProxy> findByAccountAndDateAndType(TransactionFilterProxy filter, DataPageProxy dataPage);
+    Request<Void> updateTransaction(TransactionProxy transaction);
 
-    Request<Double> totalAmountByAccountAndPeriodAndType(TransactionFilterProxy filter);
+    Request<TransactionProxy> findByTransactionId(Long transactionId);
+
+    Request<PagedTransactionsProxy> findByAccount(Long accountId, DataPageProxy dataPage);
 }

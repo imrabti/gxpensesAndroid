@@ -17,6 +17,7 @@ import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
 import com.nuvola.gxpenses.client.request.proxy.AccountProxy;
 import com.nuvola.gxpenses.util.Constants;
 import com.nuvola.gxpenses.util.EnhancedListFragment;
+import com.nuvola.gxpenses.util.ValueListFactory;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ public class AccountFragment extends EnhancedListFragment {
 
     @Inject
     private GxpensesRequestFactory requestFactory;
+    @Inject
+    private ValueListFactory valueListFactory;
     @Inject
     private AccountAdapterFactory accountAdapterFactory;
 
@@ -43,11 +46,6 @@ public class AccountFragment extends EnhancedListFragment {
     public void onStart() {
         super.onStart();
         new LoadAccountsTask().execute();
-    }
-
-    private void initialiseData(List<AccountProxy> accounts) {
-        accountDataItems = accountAdapterFactory.create(getActivity(), R.layout.list_item_account, accounts);
-        setListAdapter(accountDataItems);
     }
 
     @Override
@@ -83,6 +81,11 @@ public class AccountFragment extends EnhancedListFragment {
         intent.putExtra("accountName", accountDataItems.getItem(position).getName());
         intent.putExtra("accountBalance", accountDataItems.getItem(position).getBalance());
         startActivity(intent);
+    }
+
+    private void initialiseData(List<AccountProxy> accounts) {
+        accountDataItems = accountAdapterFactory.create(getActivity(), R.layout.list_item_account, accounts);
+        setListAdapter(accountDataItems);
     }
 
     private class LoadAccountsTask extends AsyncTask<Void, Void, List<AccountProxy>> {

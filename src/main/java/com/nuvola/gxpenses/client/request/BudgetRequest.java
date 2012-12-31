@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @ServiceName(value = "com.nuvola.gxpenses.server.service.BudgetServiceImpl",
-        locator = "com.nuvola.gxpenses.server.util.SpringServiceLocator")
+             locator = "com.nuvola.gxpenses.server.util.SpringServiceLocator")
 public interface BudgetRequest extends RequestContext {
     Request<Void> createBudget(BudgetProxy budget);
 

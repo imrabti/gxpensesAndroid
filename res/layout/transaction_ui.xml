@@ -14,7 +14,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:background="@drawable/status_bar_back_repeat">
+            android:background="@drawable/status_bar_small_back_repeat">
 
         <TextView
                 android:id="@+id/account_name"

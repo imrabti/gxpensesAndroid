@@ -71,10 +71,4 @@ public class SuggestionListFactory {
             });
         }
     }
-
-    public void reloadTagsList() {
-        listTags.clear();
-        listTags = null;
-        getListTags();
-    }
 }
