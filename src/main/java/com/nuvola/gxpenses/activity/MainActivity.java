@@ -169,7 +169,8 @@ public class MainActivity extends RoboFragmentActivity {
                         currentUser.init();
                         suggestionListFactory.getListPayee();
                         suggestionListFactory.getListTags();
-                        valueListFactory.getListAccounts();
+                        valueListFactory.updateListAccounts();
+                        valueListFactory.updateListBudgets();
                     } else {
                         Log.d(TAG, "User Authentication FAILED");
                         redirectToLoginActivity();
