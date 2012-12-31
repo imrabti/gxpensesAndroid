@@ -4,34 +4,32 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.nuvola.gxpenses.R;
 import com.nuvola.gxpenses.adapter.AccountAdapter;
-import com.nuvola.gxpenses.ioc.Currency;
+import com.nuvola.gxpenses.adapter.AccountAdapterFactory;
 import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
 import com.nuvola.gxpenses.client.request.proxy.AccountProxy;
 import com.nuvola.gxpenses.util.Constants;
-import roboguice.fragment.RoboListFragment;
+import com.nuvola.gxpenses.util.EnhancedListFragment;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountFragment extends RoboListFragment {
+public class AccountFragment extends EnhancedListFragment {
     public static final String TAG = AccountFragment.class.getName();
     public static final boolean DEBUG = Constants.DEBUG;
 
     @Inject
     private GxpensesRequestFactory requestFactory;
-    @Currency
-    private String currency;
+    @Inject
+    private AccountAdapterFactory accountAdapterFactory;
 
     private AccountAdapter accountDataItems;
 
@@ -42,19 +40,13 @@ public class AccountFragment extends RoboListFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = layoutInflater.inflate(R.layout.account_list, container, false);
-        return v;
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
-        //new LoadAccountsTask().execute();
+        new LoadAccountsTask().execute();
     }
 
     private void initialiseData(List<AccountProxy> accounts) {
-        accountDataItems = new AccountAdapter(getActivity(), R.layout.list_item_account, accounts, currency);
+        accountDataItems = accountAdapterFactory.create(getActivity(), R.layout.list_item_account, accounts);
         setListAdapter(accountDataItems);
     }
 
