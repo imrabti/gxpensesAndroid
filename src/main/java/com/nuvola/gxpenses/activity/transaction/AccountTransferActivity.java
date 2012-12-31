@@ -20,13 +20,12 @@ import com.nuvola.gxpenses.client.request.proxy.AccountProxy;
 import com.nuvola.gxpenses.client.request.proxy.TransferTransactionProxy;
 import com.nuvola.gxpenses.util.Constants;
 import com.nuvola.gxpenses.util.LoadingDialog;
+import com.nuvola.gxpenses.util.ValueListFactory;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 @ContentView(R.layout.transfert_account_ui)
 public class AccountTransferActivity extends RoboActivity {
@@ -35,6 +34,8 @@ public class AccountTransferActivity extends RoboActivity {
 
     @Inject
     GxpensesRequestFactory requestFactory;
+    @Inject
+    ValueListFactory valueListFactory;
 
     @InjectView(R.id.account_source)
     private Spinner sourceAccount;
@@ -56,8 +57,11 @@ public class AccountTransferActivity extends RoboActivity {
         final ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        spinnerData = new AccountSpinnerAdapter(this, valueListFactory.getListAccounts());
+        sourceAccount.setAdapter(spinnerData);
+        targetAccount.setAdapter(spinnerData);
+
         loadingDialog = new LoadingDialog(this);
-        new LoadAccountsTask().execute();
     }
 
     @Override
@@ -76,8 +80,8 @@ public class AccountTransferActivity extends RoboActivity {
 
             case R.id.save_account_menu:
                 TransferTransactionProxy transfer = context.create(TransferTransactionProxy.class);
-                transfer.setSourceAccount(((AccountProxy) sourceAccount.getSelectedItem()));
-                transfer.setTargetAccount(((AccountProxy) targetAccount.getSelectedItem()));
+                transfer.setSourceAccount(context.edit((AccountProxy) sourceAccount.getSelectedItem()));
+                transfer.setTargetAccount(context.edit((AccountProxy) targetAccount.getSelectedItem()));
                 if (amount.getText().toString().length() > 0) {
                     transfer.setAmount(Double.parseDouble(amount.getText().toString()));
                 } else {
@@ -97,45 +101,6 @@ public class AccountTransferActivity extends RoboActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-    }
-
-    private void setUpAccountSpinnerData(List<AccountProxy> accounts) {
-        spinnerData = new AccountSpinnerAdapter(this, accounts);
-        sourceAccount.setAdapter(spinnerData);
-        targetAccount.setAdapter(spinnerData);
-    }
-
-    private class LoadAccountsTask extends AsyncTask<Void, Void, List<AccountProxy>> {
-        @Override
-        protected void onPreExecute() {
-            loadingDialog.show();
-        }
-
-        @Override
-        protected List<AccountProxy> doInBackground(Void... params) {
-            final List<AccountProxy> listAccounts = new ArrayList<AccountProxy>();
-            requestFactory.accountService().findAllAccountsByUserId().fire(new Receiver<List<AccountProxy>>() {
-                @Override
-                public void onSuccess(List<AccountProxy> results) {
-                    listAccounts.addAll(results);
-                }
-            });
-
-            return listAccounts;
-        }
-
-        @Override
-        protected void onPostExecute(List<AccountProxy> accounts) {
-            if (DEBUG) Log.d(TAG, "Loading Accounts finish, Number of Accounts =>" + accounts.size());
-            loadingDialog.dismiss();
-            setUpAccountSpinnerData(accounts);
-        }
-
-        @Override
-        public void onCancelled() {
-            if (DEBUG) Log.d(TAG, "Operation Canceled...");
-            loadingDialog.dismiss();
-        }
     }
 
     private class SaveTransfertTask extends AsyncTask<TransferTransactionProxy, Void, Boolean> {
