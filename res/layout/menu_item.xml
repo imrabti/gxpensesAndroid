@@ -2,15 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="fill_parent"
-              android:padding="8dp"
+              android:paddingTop="11dp"
+              android:paddingBottom="11dp"
+              android:paddingLeft="18dp"
               android:layout_height="?android:attr/listPreferredItemHeight">
     <ImageView
             android:id="@+id/menu_icon"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:scaleType="center"
-            android:layout_marginRight="8dp"/>
+            android:layout_marginRight="20dp"/>
 
     <TextView
             android:id="@+id/menu_label"

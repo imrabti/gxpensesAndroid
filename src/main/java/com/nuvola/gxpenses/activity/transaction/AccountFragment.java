@@ -16,7 +16,6 @@ import com.nuvola.gxpenses.adapter.AccountAdapterFactory;
 import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
 import com.nuvola.gxpenses.client.request.proxy.AccountProxy;
 import com.nuvola.gxpenses.util.Constants;
-import com.nuvola.gxpenses.util.EnhancedListFragment;
 import com.nuvola.gxpenses.util.ValueListFactory;
 import roboguice.fragment.RoboListFragment;
 

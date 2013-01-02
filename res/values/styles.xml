@@ -1,25 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- The Base Theme of gXpenses Application -->
-    <style name="Theme.GxpensesApp" parent="android:style/Theme.Holo.Light">
-        <item name="android:actionBarTabStyle">@style/GxpensesBarTabStyle</item>
-        <item name="android:actionBarTabTextStyle">@style/GxpensesBarTabTextStyle</item>
-        <item name="android:actionBarTabBarStyle">@style/GxpensesBarTabBarStyle</item>
-    </style>
-
-    <!-- style for the tabs -->
-    <style name="GxpensesBarTabStyle" parent="android:style/Widget.Holo.Light.ActionBar.TabView">
-        <item name="android:background">@drawable/actionbar_tab_bg</item>
-    </style>
-
-    <style name="GxpensesBarTabBarStyle" parent="android:style/Widget.Holo.Light.ActionBar.TabBar">
-        <item name="android:background">@color/light_gray</item>
-    </style>
-
-    <style name="GxpensesBarTabTextStyle" parent="android:style/Widget.Holo.Light.ActionBar.TabText">
-        <item name="android:textColor">@color/white</item>
-    </style>
-
     <style name="elementTitle">
         <item name="android:textSize">18dp</item>
         <item name="android:textColor">@color/black</item>

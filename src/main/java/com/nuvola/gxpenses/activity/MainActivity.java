@@ -8,9 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.nuvola.gxpenses.R;
 import com.nuvola.gxpenses.activity.transaction.AccountFragment;
@@ -85,30 +82,6 @@ public class MainActivity extends RoboSlidingFragmentActivity {
         FragmentTransaction contentTransaction = getSupportFragmentManager().beginTransaction();
         contentTransaction.replace(R.id.content_frame, currentFragment);
         contentTransaction.commit();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.sign_out_menu:
-                if (DEBUG) Log.d(TAG, "Loggin out, cleaning all user data...");
-                securityUtils.clearCredentials();
-                redirectToLoginActivity();
-                return true;
-
-            case R.id.setting_menu:
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override

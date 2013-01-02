@@ -33,11 +33,25 @@ public class MenuItemAdapter extends ArrayAdapter<MenuItem> {
 
         MenuItem menuItem = menuItems.get(position);
         if (menuItem != null) {
-            // Set the Status
             ImageView menuImageView = (ImageView) view.findViewById(R.id.menu_icon);
-            menuImageView.setImageResource(R.drawable.status_red);
+            switch (menuItem) {
+                case ACCOUNT:
+                    menuImageView.setImageResource(R.drawable.layers);
+                    break;
+                case REPORT:
+                    menuImageView.setImageResource(R.drawable.chart);
+                    break;
+                case BUDGET:
+                    menuImageView.setImageResource(R.drawable.bars);
+                    break;
+                case SETTING:
+                    menuImageView.setImageResource(R.drawable.cog);
+                    break;
+                case LOGOUT:
+                    menuImageView.setImageResource(R.drawable.moon);
+                    break;
+            }
 
-            // Set the Name
             TextView menuLabelTextView = (TextView) view.findViewById(R.id.menu_label);
             menuLabelTextView.setText(menuItem.getLabel());
         }

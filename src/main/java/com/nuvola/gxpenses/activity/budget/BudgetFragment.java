@@ -43,6 +43,7 @@ public class BudgetFragment extends RoboListFragment {
     @Override
     public void onStart() {
         super.onStart();
+        getActivity().setTitle(R.string.budgets_label);
         new LoadBudgetsTask().execute();
     }
 
@@ -98,7 +99,7 @@ public class BudgetFragment extends RoboListFragment {
 
         @Override
         protected void onPostExecute(List<BudgetProxy> budgets) {
-            if (DEBUG) Log.d(TAG, "Loading Budgets finish, Number of Budhets =>" + budgets.size());
+            if (DEBUG) Log.d(TAG, "Loading Budgets finish, Number of Budgets =>" + budgets.size());
             initialiseData(budgets);
         }
     }
