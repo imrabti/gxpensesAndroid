@@ -4,7 +4,7 @@
     <dimen name="marign_top_bottom">12dp</dimen>
     <dimen name="list_item_padding">6dp</dimen>
     <dimen name="list_item_padding_alt">10dp</dimen>
-    <dimen name="slidingmenu_offset">60dp</dimen>
+    <dimen name="slidingmenu_offset">90dp</dimen>
     <dimen name="list_padding">10dp</dimen>
     <dimen name="shadow_width">15dp</dimen>
 </resources>

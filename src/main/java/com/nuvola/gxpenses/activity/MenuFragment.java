@@ -6,11 +6,14 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.nuvola.gxpenses.R;
 import com.nuvola.gxpenses.activity.budget.BudgetFragment;
 import com.nuvola.gxpenses.activity.transaction.AccountFragment;
+import com.nuvola.gxpenses.adapter.MenuItemAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuFragment extends ListFragment {
     public enum MenuItem {
@@ -28,8 +31,13 @@ public class MenuFragment extends ListFragment {
             return label;
         }
 
-        public static String[] getValues() {
-            return new String[]{ACCOUNT.getLabel(), BUDGET.getLabel(), REPORT.getLabel()};
+        public static List<MenuItem> getValues() {
+            List<MenuItem> menuItems = new ArrayList<MenuItem>();
+            menuItems.add(ACCOUNT);
+            menuItems.add(BUDGET);
+            menuItems.add(REPORT);
+
+            return menuItems;
         }
     }
 
@@ -41,8 +49,7 @@ public class MenuFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ArrayAdapter<String> colorAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, MenuItem.getValues());
+        MenuItemAdapter colorAdapter = new MenuItemAdapter(getActivity(), R.layout.menu_item, MenuItem.getValues());
         setListAdapter(colorAdapter);
     }
 
