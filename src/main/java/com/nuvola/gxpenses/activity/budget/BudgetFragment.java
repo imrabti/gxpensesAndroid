@@ -16,7 +16,6 @@ import com.nuvola.gxpenses.adapter.BudgetAdapterFactory;
 import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
 import com.nuvola.gxpenses.client.request.proxy.BudgetProxy;
 import com.nuvola.gxpenses.util.Constants;
-import roboguice.RoboGuice;
 import roboguice.fragment.RoboListFragment;
 
 import javax.inject.Inject;

@@ -15,7 +15,8 @@ import com.nuvola.gxpenses.activity.transaction.AccountFragment;
 public class MenuFragment extends ListFragment {
     public enum MenuItem {
         ACCOUNT("Account"),
-        BUDGET("Budget");
+        BUDGET("Budget"),
+        REPORT("Report");
 
         private String label;
 
@@ -28,7 +29,7 @@ public class MenuFragment extends ListFragment {
         }
 
         public static String[] getValues() {
-            return new String[]{ACCOUNT.getLabel(), BUDGET.getLabel()};
+            return new String[]{ACCOUNT.getLabel(), BUDGET.getLabel(), REPORT.getLabel()};
         }
     }
 
@@ -53,6 +54,9 @@ public class MenuFragment extends ListFragment {
                 newContent = new AccountFragment();
                 break;
             case 1:
+                newContent = new BudgetFragment();
+                break;
+            case 2:
                 newContent = new BudgetFragment();
                 break;
         }
