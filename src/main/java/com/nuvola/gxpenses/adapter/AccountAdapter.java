@@ -32,6 +32,7 @@ public class AccountAdapter extends ArrayAdapter<AccountProxy> {
         currencyFormat.setCurrency(java.util.Currency.getInstance(currency));
     }
 
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {

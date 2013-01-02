@@ -16,14 +16,14 @@ import com.nuvola.gxpenses.adapter.AccountAdapterFactory;
 import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
 import com.nuvola.gxpenses.client.request.proxy.AccountProxy;
 import com.nuvola.gxpenses.util.Constants;
-import com.nuvola.gxpenses.util.EnhancedListFragment;
 import com.nuvola.gxpenses.util.ValueListFactory;
+import roboguice.fragment.RoboListFragment;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountFragment extends EnhancedListFragment {
+public class AccountFragment extends RoboListFragment {
     public static final String TAG = AccountFragment.class.getName();
     public static final boolean DEBUG = Constants.DEBUG;
 
@@ -39,6 +39,7 @@ public class AccountFragment extends EnhancedListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle(R.string.accounts_label);
         setHasOptionsMenu(true);
     }
 

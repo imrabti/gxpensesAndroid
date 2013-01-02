@@ -1,6 +1,5 @@
 package com.nuvola.gxpenses.activity.budget;
 
-import android.app.ListFragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,14 +16,14 @@ import com.nuvola.gxpenses.adapter.BudgetAdapterFactory;
 import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
 import com.nuvola.gxpenses.client.request.proxy.BudgetProxy;
 import com.nuvola.gxpenses.util.Constants;
-import roboguice.RoboGuice;
+import roboguice.fragment.RoboListFragment;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class BudgetFragment extends ListFragment {
+public class BudgetFragment extends RoboListFragment {
     public static final String TAG = BudgetFragment.class.getName();
     public static final boolean DEBUG = Constants.DEBUG;
 
@@ -38,14 +37,13 @@ public class BudgetFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RoboGuice.getInjector(getActivity()).injectMembersWithoutViews(this);
-
         setHasOptionsMenu(true);
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        getActivity().setTitle(R.string.budgets_label);
         new LoadBudgetsTask().execute();
     }
 
@@ -101,7 +99,7 @@ public class BudgetFragment extends ListFragment {
 
         @Override
         protected void onPostExecute(List<BudgetProxy> budgets) {
-            if (DEBUG) Log.d(TAG, "Loading Budgets finish, Number of Budhets =>" + budgets.size());
+            if (DEBUG) Log.d(TAG, "Loading Budgets finish, Number of Budgets =>" + budgets.size());
             initialiseData(budgets);
         }
     }

@@ -10,6 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <android.sdk.path>/Users/imrabti/android-sdk-macosx</android.sdk.path>
 
         <!-- Plugins -->
         <android-maven-plugin.version>3.3.0</android-maven-plugin.version>

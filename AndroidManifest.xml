@@ -14,7 +14,7 @@
 
     <application android:label="gXpenses" android:icon="@drawable/ic_launcher"
                  android:logo="@drawable/logo"
-                 android:theme="@style/Theme.GxpensesApp"
+                 android:theme="@android:style/Theme.Holo.Light"
                  android:name=".MainApplication"
                  android:debuggable="true"
                  android:hardwareAccelerated="true">
