@@ -2,31 +2,30 @@
 package com.nuvola.gxpenses.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.nuvola.gxpenses.R;
-import com.nuvola.gxpenses.activity.budget.BudgetFragment;
 import com.nuvola.gxpenses.activity.transaction.AccountFragment;
 import com.nuvola.gxpenses.client.request.GxpensesRequestFactory;
 import com.nuvola.gxpenses.security.CurrentUser;
 import com.nuvola.gxpenses.security.SecurityUtils;
 import com.nuvola.gxpenses.util.Constants;
+import com.nuvola.gxpenses.util.RoboSlidingFragmentActivity;
 import com.nuvola.gxpenses.util.SuggestionListFactory;
 import com.nuvola.gxpenses.util.ValueListFactory;
-import roboguice.activity.RoboFragmentActivity;
+import com.slidingmenu.lib.SlidingMenu;
 
 import javax.inject.Inject;
 
-public class MainActivity extends RoboFragmentActivity {
+public class MainActivity extends RoboSlidingFragmentActivity {
     private static final String TAG = MainActivity.class.getName();
     private static final boolean DEBUG = Constants.DEBUG;
 
@@ -40,6 +39,9 @@ public class MainActivity extends RoboFragmentActivity {
     ValueListFactory valueListFactory;
     @Inject
     SecurityUtils securityUtils;
+
+    private Fragment menuFragment;
+    private Fragment currentFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,26 +58,39 @@ public class MainActivity extends RoboFragmentActivity {
 
         final ActionBar actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        actionBar.addTab(actionBar.newTab()
-                .setText(R.string.accounts_label)
-                .setTabListener(new TabListener<AccountFragment>(this, "accounts",
-                        AccountFragment.class)));
-        actionBar.addTab(actionBar.newTab()
-                .setText(R.string.budgets_label)
-                .setTabListener(new TabListener<BudgetFragment>(this, "budgets",
-                        BudgetFragment.class)));
+        // Setup and configure the menu fragment
+        setBehindContentView(R.layout.menu_frame);
+        FragmentTransaction menuTransaction = this.getSupportFragmentManager().beginTransaction();
+        menuFragment = new MenuFragment();
+        menuTransaction.replace(R.id.menu_frame, menuFragment);
+        menuTransaction.commit();
+
+        // Configure the sliding
+        SlidingMenu sm = getSlidingMenu();
+        sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        sm.setFadeDegree(0.35f);
+        sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
         if (savedInstanceState != null) {
-            actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
+            currentFragment = getSupportFragmentManager().getFragment(savedInstanceState, "fragment");
         }
+
+        if (currentFragment == null) {
+            currentFragment = new AccountFragment();
+        }
+
+        // set the Above View
+        setContentView(R.layout.content_frame);
+        FragmentTransaction contentTransaction = getSupportFragmentManager().beginTransaction();
+        contentTransaction.replace(R.id.content_frame, currentFragment);
+        contentTransaction.commit();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -97,9 +112,17 @@ public class MainActivity extends RoboFragmentActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+        getSupportFragmentManager().putFragment(outState, "fragment", currentFragment);
+    }
+
+    public void switchContent(Fragment fragment) {
+        currentFragment = fragment;
+        FragmentTransaction contentTransaction = getSupportFragmentManager().beginTransaction();
+        contentTransaction.replace(R.id.content_frame, fragment);
+        contentTransaction.commit();
+        getSlidingMenu().showContent();
     }
 
     private void redirectToLoginActivity() {
@@ -111,49 +134,6 @@ public class MainActivity extends RoboFragmentActivity {
                 Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
-    }
-
-    public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
-        private final Activity mActivity;
-        private final String mTag;
-        private final Class<T> mClass;
-        private final Bundle mArgs;
-        private Fragment mFragment;
-
-        public TabListener(Activity activity, String tag, Class<T> clz) {
-            this(activity, tag, clz, null);
-        }
-
-        public TabListener(Activity activity, String tag, Class<T> clz, Bundle args) {
-            mActivity = activity;
-            mTag = tag;
-            mClass = clz;
-            mArgs = args;
-
-            mFragment = mActivity.getFragmentManager().findFragmentByTag(mTag);
-            if (mFragment != null && !mFragment.isDetached()) {
-                FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
-                ft.detach(mFragment);
-                ft.commit();
-            }
-        }
-
-        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-            if (mFragment == null) {
-                mFragment = Fragment.instantiate(mActivity, mClass.getName(), mArgs);
-                ft.add(android.R.id.content, mFragment, mTag);
-            } else {
-                ft.attach(mFragment);
-            }
-        }
-
-        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-            if (mFragment != null) {
-                ft.detach(mFragment);
-            }
-        }
-
-        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) { }
     }
 
     private class PrepareApplicationTask extends AsyncTask<Void, Void, Void> {
